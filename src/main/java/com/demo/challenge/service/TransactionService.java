@@ -2,6 +2,7 @@ package com.demo.challenge.service;
 
 import com.demo.challenge.dao.TransactionReports;
 import com.demo.challenge.model.CategorySpend;
+import com.demo.challenge.model.LowHigh;
 import com.demo.challenge.model.StateSales;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,5 +20,9 @@ public class TransactionService {
 
     public List<CategorySpend> getCategorySpendByState(String state){
         return repository.getCategorySpendByState(state);
+    }
+
+    public List<LowHigh> getLowHighTransactionTotals(double amount){
+        return repository.getLowHighTransactionTotals(amount);
     }
 }

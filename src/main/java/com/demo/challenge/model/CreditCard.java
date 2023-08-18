@@ -13,7 +13,7 @@ public class CreditCard {
     private String last;
     private String gender;
     private String job;
-    private String dob;
+    private int dob;
     @Field("customer_id")
     private int customer;
     public int getCustomer() {
@@ -55,11 +55,11 @@ public class CreditCard {
         this.job = job;
     }
 
-    public String getDob() {
+    public int getDob() {
         return dob;
     }
 
-    public void setDob(String dob) {
+    public void setDob(int dob) {
         this.dob = dob;
     }
 }

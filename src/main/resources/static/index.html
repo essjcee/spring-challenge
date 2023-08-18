@@ -20,6 +20,8 @@
         <select id="stateDdown">
             <option selected value="Choose">Choose a State</option>
         </select>
+        <button class="btn btn-secondary" onclick="btnHighLowTransactionValues()">
+            Low and High Value Transactions</button> Amount: <input type="text" value="50" size="10" id="lowhigh" />
     </p>
     <div id="stateTransactions" style="display:none">
     <table id="items" class="table table-primary">
@@ -58,6 +60,27 @@
                 <td>
                     <div class="chart-container-category">
                         <canvas id="categoryChart"></canvas>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="lowHighTransactions" style="display:none">
+        <table id="lhitems" class="table table-primary">
+            <tr>
+                <td><table>
+                    <thead>
+                    <tr>
+                        <th>Low/High Spend</th>
+                        <th>Total Amount</th>
+                    </tr>
+                    </thead>
+                    <tbody id="lhspend"></tbody>
+                </table>
+                </td>
+                <td>
+                    <div class="chart-container-category">
+                        <canvas id="lowHighChart"></canvas>
                     </div>
                 </td>
             </tr>

@@ -18,22 +18,36 @@ function populateDropDown(){
 function btnState() {
     let x = document.getElementById("stateTransactions");
     let y = document.getElementById("categoryTransactions");
+    let z = document.getElementById("lowHighTransactions");
     y.style.display = "none";
     x.style.display = "block";
+    z.style.display = "none"
     getStateTransactions();
 }
 
 function btnCategory() {
     let x = document.getElementById("stateTransactions");
     let y = document.getElementById("categoryTransactions");
+    let z = document.getElementById("lowHighTransactions");
     x.style.display = "none";
     y.style.display = "block";
+    z.style.display = "none"
     getCategorySpendByState(document.getElementById("stateDdown").value);
 }
 
+function btnHighLowTransactionValues() {
+    let x = document.getElementById("stateTransactions");
+    let y = document.getElementById("categoryTransactions");
+    let z = document.getElementById("lowHighTransactions");
+    x.style.display = "none";
+    y.style.display = "none";
+    z.style.display = "block"
+    getHLTransactionValues(document.getElementById("lowhigh").value);
+}
+
 function getStateTransactions() {
-	const url = "/transactions/statetransactions";
-	fetch(url)//promise object to return data from Rest API
+	const urlstate = "/transactions/statetransactions";
+	fetch(urlstate)//promise object to return data from Rest API
 		.then(response => { return response.json(); }) //resolve , data from resolve is passed to next then
 		.then(items => {
 			if (items.length > 0) {
@@ -48,7 +62,7 @@ function getStateTransactions() {
 		}
 	}
 	);
-    fetch(url).then(response => { return response.json(); })
+    fetch(urlstate).then(response => { return response.json(); })
     .then( items => {
         labels = [];
         values = [];
@@ -78,8 +92,8 @@ function getStateTransactions() {
 }
 
 function getCategorySpendByState(state){
-    const url = `/transactions/statetransactions/${state}`;
-    	fetch(url)//promise object to return data from Rest API
+    const urlcat = `/transactions/statetransactions/${state}`;
+    	fetch(urlcat)//promise object to return data from Rest API
     		.then(response => { return response.json(); }) //resolve , data from resolve is passed to next then
     		.then(items => {
     			if (items.length > 0) {
@@ -94,7 +108,7 @@ function getCategorySpendByState(state){
     		}
     	}
     	);
-        fetch(url).then(response => { return response.json(); })
+        fetch(urlcat).then(response => { return response.json(); })
         .then( items => {
             labels = [];
             values = [];
@@ -121,6 +135,53 @@ function getCategorySpendByState(state){
               }
             });
         });
+}
+
+function getHLTransactionValues(amount) {
+	const urltrans = `/transactions/statetransactions/highlow/${amount}`;
+	fetch(urltrans)//promise object to return data from Rest API
+		.then(response => { return response.json(); }) //resolve , data from resolve is passed to next then
+		.then(items => {
+			if (items.length > 0) {
+				let temp = "";
+				items.forEach((itemData) => {
+					temp += "<tr>";
+					temp += "<td>" + itemData.lowHigh + "</td>";
+					temp += "<td>" + itemData.transTotal + "</td>";
+					temp += "</tr>"
+				});
+				console.log(temp);
+				document.getElementById('lhspend').innerHTML = temp;
+		}
+	}
+	);
+    fetch(urltrans).then(response => { return response.json(); })
+    .then( items => {
+        labels = [];
+        values = [];
+        items.forEach((itemData) => {
+            labels.push(itemData.lowHigh);
+            values.push(itemData.transTotal);
+        });
+        const myChart = new Chart("lowHighChart", {
+          type: "pie",
+          data: {
+            labels: labels,
+            datasets: [
+                {
+                    data: values,
+                    backgroundColor : [ "#51EAEA", "#FCDDB0"]
+                }
+           ]},
+          options: {
+            legend: { display: true },
+            title: {
+                display: true,
+                text: 'Value of low and high Transactions'
+            }
+          }
+        });
+    });
 }
 
 /*
